@@ -1,19 +1,61 @@
-/* src/assets/css/Home.css */
+/* src/styles/Home.css */
 
-.info-section {
-  background: #f8f9fa;
+/* Home Section */
+.home-section {
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  min-height: 100vh;
   font-family: 'Poppins', sans-serif;
+  padding: 4rem 1rem;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.card {
-  border: none;
-  transition: transform 0.2s ease-in-out;
+/* Button Hover Effects */
+.hover-glow:hover {
+  background-color: #00c6ff !important;
+  color: white !important;
+  box-shadow: 0 0 12px #00c6ff;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
+/* Additional Info Icons */
+.home-section .fas {
+  transition: all 0.3s ease;
 }
 
-.card-title {
-  font-size: 1.25rem;
+.home-section .fas:hover {
+  transform: scale(1.2);
+  color: #fff;
+}
+
+/* Text Colors */
+.home-section h1,
+.home-section h5 {
+  color: #fff;
+}
+
+.home-section p {
+  color: #dcdcdc;
+}
+
+/* Mobile-first responsiveness */
+@media (max-width: 768px) {
+  .home-section h1 {
+    font-size: 2.2rem;
+  }
+
+  .home-section p {
+    font-size: 1rem;
+  }
+
+  .home-section .lead {
+    font-size: 1rem;
+  }
+
+  .home-section button {
+    width: 100%;
+  }
 }

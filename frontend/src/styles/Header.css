@@ -1,29 +1,57 @@
-/* src/components/Header.css */
+/* src/styles/Header.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-.hero-section {
-  height: 90vh;
-  background: linear-gradient(to right, #007bff, #6610f2);
-  color: white;
-  font-family: 'Poppins', sans-serif;
-  position: relative;
+.hover-glow:hover {
+  color: #0ff;
+  text-shadow: 0 0 8px #0ff;
+  transition: all 0.3s ease;
 }
 
-.bg-overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 2rem;
-  border-radius: 12px;
-}
-
-.hero-section .btn {
-  font-weight: 500;
-  transition: transform 0.2s ease-in-out;
-}
-
-.hero-section .btn:hover {
+.hover-scale:hover {
   transform: scale(1.05);
+  transition: transform 0.3s ease;
 }
 
-/* Animate.css support */
-@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.5rem;
+  }
+  header p {
+    font-size: 1rem;
+  }
+}
+/* src/styles/Header.css */
+.hover-glow {
+  transition: all 0.3s ease-in-out;
+}
+
+.hover-glow:hover {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+.hover-glow:hover h1 {
+  color: #00c6ff;
+}
+.hover-glow:hover p {
+  color: #fff;
+}
+.hover-glow:hover .btn {
+  background-color: #00c6ff;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
+}
+.hover-glow:hover .btn:hover {
+  background-color: #00aaff;
+  box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+}
+.hover-glow:hover .btn:active {
+  background-color: #0088cc;
+  box-shadow: 0 0 20px rgba(0, 136, 204, 0.5);
+}
+.hover-glow:hover .btn:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
+}
+.hover-glow:hover .btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
+}

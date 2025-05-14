@@ -1,41 +1,26 @@
-.animated-navbar {
-  animation: slideInDown 0.5s ease-in-out;
+/* Navbar.css */
+
+.navbar {
+  z-index: 1000;
 }
 
-@keyframes slideInDown {
-  from {
-    transform: translateY(-60px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.nav-link {
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
-.navbar-brand {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
-}
-
-.navbar .nav-link {
-  transition: all 0.3s ease-in-out;
-  font-weight: 500;
-}
-
-.navbar .nav-link:hover {
-  color: #ffc107 !important;
+.nav-link:hover {
+  color: #f8f9fa;
   transform: scale(1.05);
 }
 
-.navbar .nav-link.active {
-  color: #fff !important;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 0.375rem;
-  padding-left: 12px;
-  padding-right: 12px;
+.navbar-brand {
+  font-size: 1.3rem;
 }
 
-.navbar-toggler {
-  border: none;
-} 
+@media (max-width: 991px) {
+  .navbar-nav {
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+}

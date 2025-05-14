@@ -1,85 +1,71 @@
+// src/components/Navbar.jsx
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import 'animate.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
-    const location = useLocation();
+  const location = useLocation();
 
-    return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-black shadow-sm animated-navbar">
-            <div className="container">
-                <Link className="navbar-brand fw-bold" to="/">
-                    <i className="bi bi-key me-2"></i>
-                    Password Reset
-                </Link>
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+  return (
+    <nav
+      className="navbar navbar-expand-lg navbar-dark  shadow-sm animate__animated animate__fadeInDown"
+      style={{
+        background: 'black',
+        backdropFilter: 'blur(10px)',
+        fontFamily: "'Poppins', sans-serif",
+        transition: 'all 0.3s ease-in-out',
+      }}
+    >
+      <div className="container">
+        <Link className="navbar-brand fw-bold" to="/">
+          <i className="fas fa-key me-2 text-warning"></i>SecureAuth
+        </Link>
 
-                <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <Link
-                                className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-                                to="/"
-                            >
-                                <i className="bi bi-house-door me-1"></i> Home
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link
-                                className={`nav-link ${location.pathname === '/login' ? 'active' : ''}`}
-                                to="/login"
-                            >
-                                <i className="bi bi-box-arrow-in-right me-1"></i> Login
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link
-                                className={`nav-link ${location.pathname === '/register' ? 'active' : ''}`}
-                                to="/register"
-                            >
-                                <i className="bi bi-person-plus me-1"></i> Register
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link
-                                className={`nav-link ${location.pathname === '/forgot-password' ? 'active' : ''}`}
-                                to="/forgot-password"
-                            >
-                                <i className="bi bi-key-fill me-1"></i> Forgot Password
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link
-                                className={`nav-link ${location.pathname === '/verify' ? 'active' : ''}`}
-                                to="/verify"
-                            >
-                                <i className="bi bi-envelope-check-fill me-1"></i> Email Verify
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link
-                                className={`nav-link ${location.pathname === '/reset' ? 'active' : ''}`}
-                                to="/reset"
-                            >
-                                <i className="bi bi-lock-fill me-1"></i> Reset Password
-                            </Link>
-                        </li>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    );
+        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul className="navbar-nav text-center text-lg-start">
+            <li className="nav-item">
+              <Link
+                to="/"
+                className={`nav-link ${location.pathname === '/' ? 'active text-primary fw-bold' : ''}`}
+              >
+                <i className="fas fa-home me-1"></i> Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/login"
+                className={`nav-link ${location.pathname === '/login' ? 'active text-info fw-bold' : ''}`}
+              >
+                <i className="fas fa-sign-in-alt me-1"></i> Login
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/register"
+                className={`nav-link ${location.pathname === '/register' ? 'active text-success fw-bold' : ''}`}
+              >
+                <i className="fas fa-user-plus me-1"></i> Register
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
 };
 
 export default Navbar;
