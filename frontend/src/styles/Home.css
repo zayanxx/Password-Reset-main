@@ -1,0 +1,19 @@
+/* src/assets/css/Home.css */
+
+.info-section {
+  background: #f8f9fa;
+  font-family: 'Poppins', sans-serif;
+}
+
+.card {
+  border: none;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-title {
+  font-size: 1.25rem;
+}

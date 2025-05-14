@@ -1,0 +1,29 @@
+/* src/components/Header.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.hero-section {
+  height: 90vh;
+  background: linear-gradient(to right, #007bff, #6610f2);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.bg-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.hero-section .btn {
+  font-weight: 500;
+  transition: transform 0.2s ease-in-out;
+}
+
+.hero-section .btn:hover {
+  transform: scale(1.05);
+}
+
+/* Animate.css support */
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
