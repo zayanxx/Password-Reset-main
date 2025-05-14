@@ -1,98 +1,168 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
+import "animate.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
-const ResetPassword = () => {
-  const [step, setStep] = useState(1);
-  const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+const ResetPasswordPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state?.email || "";
 
-  const handleSendOtp = async () => {
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // If someone lands here without an email, redirect back to forgot-password
+  useEffect(() => {
     if (!email) {
-      setMessage('Email is required');
+      navigate("/forgot-password");
+    }
+  }, [email, navigate]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!otp || !newPassword || !confirmPassword) {
+      toast.error("All fields are required.");
       return;
     }
 
-    try {
-      setLoading(true);
-      const response = await axios.post('/send-reset-otp', { email });
-      setMessage(response.data.message);
-      setStep(2);
-    } catch (error) {
-      setMessage(error.response?.data?.message || 'Error sending OTP');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResetPassword = async () => {
-    if (!otp || !newPassword) {
-      setMessage('OTP and new password are required');
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match.");
       return;
     }
 
+    setIsLoading(true);
     try {
-      setLoading(true);
-      const response = await axios.post('/reset-password', {
-        email,
-        otp,
-        newPassword,
-      });
-      setMessage(response.data.message);
-      setStep(1);
-      setEmail('');
-      setOtp('');
-      setNewPassword('');
+      const payload = { email, otp, newPassword };
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/reset-password`,
+        payload
+      );
+
+      if (response.data.success) {
+        toast.success("Password reset successfully. Please log in.");
+        navigate("/login");
+      } else {
+        toast.error(response.data.message || "Failed to reset password.");
+      }
     } catch (error) {
-      setMessage(error.response?.data?.message || 'Error resetting password');
+      console.error("Reset password error:", error);
+      toast.error(
+        error.response?.data?.message ||
+          "An error occurred. Please try again."
+      );
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
+
+  // Prevent rendering form until email is available
+  if (!email) return <Navigate to="/forgot-password" replace />;
 
   return (
-    <div style={{ maxWidth: 400, margin: '0 auto', padding: '2rem' }}>
-      <h2>Reset Password</h2>
-      {message && <p style={{ color: 'red' }}>{message}</p>}
+    <div
+      className="d-flex align-items-center justify-content-center vh-100"
+      style={{
+        background: "linear-gradient(135deg, #667eea, #764ba2)",
+        fontFamily: "'Segoe UI', sans-serif",
+      }}
+    >
+      <div
+        className="card p-4 shadow-lg animate__animated animate__fadeInDown"
+        style={{
+          maxWidth: "400px",
+          width: "100%",
+          borderRadius: "1rem",
+          background: "#ffffffdd",
+        }}
+      >
+        <div className="text-center mb-4">
+          <h2 className="fw-bold text-primary animate__animated animate__fadeIn">
+            Reset Password
+          </h2>
+          <p className="text-muted">
+            We sent an OTP to <strong>{email}</strong>. Enter it below along with your new password.
+          </p>
+        </div>
 
-      {step === 1 ? (
-        <>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: '100%', marginBottom: '1rem' }}
-          />
-          <button onClick={handleSendOtp} disabled={loading}>
-            {loading ? 'Sending OTP...' : 'Send OTP'}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3 input-group">
+            <span className="input-group-text bg-light">
+              <i className="fas fa-key text-primary"></i>
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3 input-group">
+            <span className="input-group-text bg-light">
+              <i className="fas fa-lock text-primary"></i>
+            </span>
+            <input
+              type="password"
+              className="form-control"
+              placeholder="New password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-4 input-group">
+            <span className="input-group-text bg-light">
+              <i className="fas fa-lock text-primary"></i>
+            </span>
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary w-100 fw-bold shadow-sm animate__animated animate__pulse animate__infinite"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <i className="fas fa-spinner fa-spin me-2"></i> Resetting...
+              </>
+            ) : (
+              <>
+                <i className="fas fa-check me-2"></i> Reset Password
+              </>
+            )}
           </button>
-        </>
-      ) : (
-        <>
-          <label>OTP:</label>
-          <input
-            type="text"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            style={{ width: '100%', marginBottom: '1rem' }}
-          />
-          <label>New Password:</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            style={{ width: '100%', marginBottom: '1rem' }}
-          />
-          <button onClick={handleResetPassword} disabled={loading}>
-            {loading ? 'Resetting Password...' : 'Reset Password'}
-          </button>
-        </>
-      )}
+        </form>
+
+        <div className="text-center mt-4">
+          <span
+            className="text-primary fw-bold"
+            style={{ cursor: "pointer", textDecoration: "underline" }}
+            onClick={() => navigate("/login")}
+          >
+            <i className="fas fa-arrow-left me-1"></i> Back to Login
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordPage;
