@@ -17,7 +17,9 @@ const ResetPasswordPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // If someone lands here without an email, redirect back to forgot-password
+  const API_BASE_URL =
+    import.meta.env.VITE_API_URL || "https://password-reset-main.onrender.com";
+
   useEffect(() => {
     if (!email) {
       navigate("/forgot-password");
@@ -40,29 +42,24 @@ const ResetPasswordPage = () => {
     setIsLoading(true);
     try {
       const payload = { email, otp, newPassword };
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/reset-password`,
-        payload
-      );
+      const { data } = await axios.post(`${API_BASE_URL}/reset-password`, payload);
 
-      if (response.data.success) {
+      if (data.success) {
         toast.success("Password reset successfully. Please log in.");
         navigate("/login");
       } else {
-        toast.error(response.data.message || "Failed to reset password.");
+        toast.error(data.message || "Failed to reset password.");
       }
     } catch (error) {
       console.error("Reset password error:", error);
       toast.error(
-        error.response?.data?.message ||
-          "An error occurred. Please try again."
+        error.response?.data?.message || "An error occurred. Please try again."
       );
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Prevent rendering form until email is available
   if (!email) return <Navigate to="/forgot-password" replace />;
 
   return (
@@ -81,9 +78,14 @@ const ResetPasswordPage = () => {
           borderRadius: "1rem",
           background: "#ffffffdd",
         }}
+        role="form"
+        aria-labelledby="reset-password-title"
       >
         <div className="text-center mb-4">
-          <h2 className="fw-bold text-primary animate__animated animate__fadeIn">
+          <h2
+            className="fw-bold text-primary animate__animated animate__fadeIn"
+            id="reset-password-title"
+          >
             Reset Password
           </h2>
           <p className="text-muted">
@@ -94,7 +96,7 @@ const ResetPasswordPage = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-3 input-group">
             <span className="input-group-text bg-light">
-              <i className="fas fa-key text-primary"></i>
+              <i className="fas fa-key text-primary" aria-hidden="true"></i>
             </span>
             <input
               type="text"
@@ -103,12 +105,14 @@ const ResetPasswordPage = () => {
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               required
+              aria-label="Enter OTP code"
+              disabled={isLoading}
             />
           </div>
 
           <div className="mb-3 input-group">
             <span className="input-group-text bg-light">
-              <i className="fas fa-lock text-primary"></i>
+              <i className="fas fa-lock text-primary" aria-hidden="true"></i>
             </span>
             <input
               type="password"
@@ -117,12 +121,14 @@ const ResetPasswordPage = () => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
+              aria-label="New password"
+              disabled={isLoading}
             />
           </div>
 
           <div className="mb-4 input-group">
             <span className="input-group-text bg-light">
-              <i className="fas fa-lock text-primary"></i>
+              <i className="fas fa-lock text-primary" aria-hidden="true"></i>
             </span>
             <input
               type="password"
@@ -131,6 +137,8 @@ const ResetPasswordPage = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              aria-label="Confirm new password"
+              disabled={isLoading}
             />
           </div>
 
@@ -138,27 +146,32 @@ const ResetPasswordPage = () => {
             type="submit"
             className="btn btn-primary w-100 fw-bold shadow-sm animate__animated animate__pulse animate__infinite"
             disabled={isLoading}
+            aria-label="Reset password button"
           >
             {isLoading ? (
               <>
-                <i className="fas fa-spinner fa-spin me-2"></i> Resetting...
+                <i className="fas fa-spinner fa-spin me-2" aria-hidden="true"></i>
+                Resetting...
               </>
             ) : (
               <>
-                <i className="fas fa-check me-2"></i> Reset Password
+                <i className="fas fa-check me-2" aria-hidden="true"></i>
+                Reset Password
               </>
             )}
           </button>
         </form>
 
         <div className="text-center mt-4">
-          <span
-            className="text-primary fw-bold"
-            style={{ cursor: "pointer", textDecoration: "underline" }}
+          <button
+            className="btn btn-link text-primary fw-bold p-0"
             onClick={() => navigate("/login")}
+            style={{ textDecoration: "underline" }}
+            aria-label="Back to login"
           >
-            <i className="fas fa-arrow-left me-1"></i> Back to Login
-          </span>
+            <i className="fas fa-arrow-left me-1" aria-hidden="true"></i>
+            Back to Login
+          </button>
         </div>
       </div>
     </div>
